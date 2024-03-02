@@ -1,4 +1,5 @@
 from glob import glob
+import time
 import shutil
 import torch
 from time import  strftime
@@ -38,7 +39,8 @@ def main(args):
     audio_to_coeff = Audio2Coeff(sadtalker_paths,  device)
     
     animate_from_coeff = AnimateFromCoeff(sadtalker_paths, device)
-
+    
+    start = time.time()
     #crop image and extract 3dmm from image
     first_frame_dir = os.path.join(save_dir, 'first_frame_dir')
     os.makedirs(first_frame_dir, exist_ok=True)
@@ -92,6 +94,8 @@ def main(args):
 
     if not args.verbose:
         shutil.rmtree(save_dir)
+    elapsed = time.time() - start
+    print("执行时间{:.3f}秒".format(elapsed))
 
     
 if __name__ == '__main__':
